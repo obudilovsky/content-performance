@@ -1,0 +1,2778 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="3.2" jmeter="3.2 r1790748">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="JMeter Test Flow Scenario (CMIS operations)" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Clean JMeter Variables" enabled="true">
+        <boolProp name="resetInterpreter">false</boolProp>
+        <stringProp name="parameters"></stringProp>
+        <stringProp name="filename"></stringProp>
+        <stringProp name="script">import org.apache.jmeter.threads.JMeterVariables;
+JMeterVariables clean = new JMeterVariables();
+vars = clean;</stringProp>
+      </BeanShellPostProcessor>
+      <hashTree/>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="THREADS_NUMBER" elementType="Argument">
+            <stringProp name="Argument.name">THREADS_NUMBER</stringProp>
+            <stringProp name="Argument.value">${__P(jmeterThreadsNumber, 20)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">Number of threads (users)</stringProp>
+          </elementProp>
+          <elementProp name="LOOP_COUNT" elementType="Argument">
+            <stringProp name="Argument.name">LOOP_COUNT</stringProp>
+            <stringProp name="Argument.value">${__P(jmeterLoopCount, 100)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">Loop Count Number</stringProp>
+          </elementProp>
+          <elementProp name="DURATION" elementType="Argument">
+            <stringProp name="Argument.name">DURATION</stringProp>
+            <stringProp name="Argument.value">${__P(jmeterDuration, 3600)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">Duration (seconds)</stringProp>
+          </elementProp>
+          <elementProp name="HOST" elementType="Argument">
+            <stringProp name="Argument.name">HOST</stringProp>
+            <stringProp name="Argument.value">${__P(jmeterEnvHost, content-performance.engagepoint.ua)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">IP or domain of test environment</stringProp>
+          </elementProp>
+          <elementProp name="FILENET_URL" elementType="Argument">
+            <stringProp name="Argument.name">FILENET_URL</stringProp>
+            <stringProp name="Argument.value">${__P(filenetUrl, http://192.168.35.21:9080/fncmis/wsdl)}</stringProp>
+            <stringProp name="Argument.desc">FileNet URL</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="FILENET_PROJ" elementType="Argument">
+            <stringProp name="Argument.name">FILENET_PROJ</stringProp>
+            <stringProp name="Argument.value">${__P(filenetProjection, CONTENT)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">Path of projection in FileNet</stringProp>
+          </elementProp>
+          <elementProp name="FILENET_USERNAME" elementType="Argument">
+            <stringProp name="Argument.name">FILENET_USERNAME</stringProp>
+            <stringProp name="Argument.value">${__P(filenetUsername, content-test)}</stringProp>
+            <stringProp name="Argument.desc">FileNet user name</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="FILENET_PASSWORD" elementType="Argument">
+            <stringProp name="Argument.name">FILENET_PASSWORD</stringProp>
+            <stringProp name="Argument.value">${__P(filenetPassword, content-test)}</stringProp>
+            <stringProp name="Argument.desc">FileNet user password</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="CMIS_URL" elementType="Argument">
+            <stringProp name="Argument.name">CMIS_URL</stringProp>
+            <stringProp name="Argument.value">/content/services/ObjectService</stringProp>
+            <stringProp name="Argument.desc">CMIS Object Service url</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="NAME_LOCAL_STORE" elementType="Argument">
+            <stringProp name="Argument.name">NAME_LOCAL_STORE</stringProp>
+            <stringProp name="Argument.value">localStore</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">Name of local storage</stringProp>
+          </elementProp>
+          <elementProp name="PATH_LOCAL_STORE" elementType="Argument">
+            <stringProp name="Argument.name">PATH_LOCAL_STORE</stringProp>
+            <stringProp name="Argument.value">/LocalStorage</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">Path of local storage</stringProp>
+          </elementProp>
+          <elementProp name="CONTENT_REPO" elementType="Argument">
+            <stringProp name="Argument.name">CONTENT_REPO</stringProp>
+            <stringProp name="Argument.value">EngagePoint Content</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">Repository name in Content</stringProp>
+          </elementProp>
+          <elementProp name="USER_NAME" elementType="Argument">
+            <stringProp name="Argument.name">USER_NAME</stringProp>
+            <stringProp name="Argument.value">username_${__RandomString(8,abcdefghijklmnopqrstuvwxyz1234567890)}${__RandomString(8,abcdefghijklmnopqrstuvwxyz1234567890)}@engagepoint.com</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">User random name</stringProp>
+          </elementProp>
+          <elementProp name="USER_PASSWORD" elementType="Argument">
+            <stringProp name="Argument.name">USER_PASSWORD</stringProp>
+            <stringProp name="Argument.value">password1</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">User default password</stringProp>
+          </elementProp>
+          <elementProp name="testCreateFolderFilenetAmount_on" elementType="Argument">
+            <stringProp name="Argument.name">testCreateFolderFilenetAmount_on</stringProp>
+            <stringProp name="Argument.value">${__P(testCreateFolderFilenetAmount_on, true)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testCreateFolderLocalStoreAmount_on" elementType="Argument">
+            <stringProp name="Argument.name">testCreateFolderLocalStoreAmount_on</stringProp>
+            <stringProp name="Argument.value">${__P(testCreateFolderLocalStoreAmount_on, true)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testCreateFiledDocumentFilenetAmount_on" elementType="Argument">
+            <stringProp name="Argument.name">testCreateFiledDocumentFilenetAmount_on</stringProp>
+            <stringProp name="Argument.value">${__P(testCreateFiledDocumentFilenetAmount_on, true)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testCreateFiledDocumentLocalStoreAmount_on" elementType="Argument">
+            <stringProp name="Argument.name">testCreateFiledDocumentLocalStoreAmount_on</stringProp>
+            <stringProp name="Argument.value">${__P(testCreateFiledDocumentLocalStoreAmount_on, true)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testCreateUnfiledDocumentFilenetAmount_on" elementType="Argument">
+            <stringProp name="Argument.name">testCreateUnfiledDocumentFilenetAmount_on</stringProp>
+            <stringProp name="Argument.value">${__P(testCreateUnfiledDocumentFilenetAmount_on, true)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testCreateUnfiledDocumentLocalStoreAmount_on" elementType="Argument">
+            <stringProp name="Argument.name">testCreateUnfiledDocumentLocalStoreAmount_on</stringProp>
+            <stringProp name="Argument.value">${__P(testCreateUnfiledDocumentLocalStoreAmount_on, true)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testCreateFolderFilenetTime_on" elementType="Argument">
+            <stringProp name="Argument.name">testCreateFolderFilenetTime_on</stringProp>
+            <stringProp name="Argument.value">${__P(testCreateFolderFilenetTime_on, true)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testCreateFolderLocalStoreTime_on" elementType="Argument">
+            <stringProp name="Argument.name">testCreateFolderLocalStoreTime_on</stringProp>
+            <stringProp name="Argument.value">${__P(testCreateFolderLocalStoreTime_on, true)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testCreateFiledDocumentFilenetTime_on" elementType="Argument">
+            <stringProp name="Argument.name">testCreateFiledDocumentFilenetTime_on</stringProp>
+            <stringProp name="Argument.value">${__P(testCreateFiledDocumentFilenetTime_on, true)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testCreateFiledDocumentLocalStoreTime_on" elementType="Argument">
+            <stringProp name="Argument.name">testCreateFiledDocumentLocalStoreTime_on</stringProp>
+            <stringProp name="Argument.value">${__P(testCreateFiledDocumentLocalStoreTime_on, true)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testCreateUnfiledDocumentFilenetTime_on" elementType="Argument">
+            <stringProp name="Argument.name">testCreateUnfiledDocumentFilenetTime_on</stringProp>
+            <stringProp name="Argument.value">${__P(testCreateUnfiledDocumentFilenetTime_on, true)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testCreateUnfiledDocumentLocalStoreTime_on" elementType="Argument">
+            <stringProp name="Argument.name">testCreateUnfiledDocumentLocalStoreTime_on</stringProp>
+            <stringProp name="Argument.value">${__P(testCreateUnfiledDocumentLocalStoreTime_on, true)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Generate Random values" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1497278661000</longProp>
+        <longProp name="ThreadGroup.end_time">1497278661000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Generate Random values" enabled="true">
+          <boolProp name="LoopController.continue_forever">true</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </LoopController>
+        <hashTree>
+          <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Random value rndBoundary" enabled="true">
+            <stringProp name="maximumValue">-1</stringProp>
+            <stringProp name="minimumValue">0</stringProp>
+            <stringProp name="outputFormat"></stringProp>
+            <boolProp name="perThread">true</boolProp>
+            <stringProp name="randomSeed">${__RandomString(32,abcdefghijklmnopqrstuvwxyz1234567890,rndBoundary)}</stringProp>
+            <stringProp name="variableName">rndBoundary</stringProp>
+            <stringProp name="TestPlan.comments">Generate random Boundary value to send SOAP request</stringProp>
+          </RandomVariableConfig>
+          <hashTree/>
+          <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Random value rndFileName (file/dir)" enabled="true">
+            <stringProp name="variableName">rndFileName</stringProp>
+            <stringProp name="outputFormat"></stringProp>
+            <stringProp name="minimumValue">0</stringProp>
+            <stringProp name="maximumValue">-1</stringProp>
+            <stringProp name="randomSeed">${__RandomString(16,abcdefghijklmnopqrstuvwxyz1234567890,rndFileName)}</stringProp>
+            <boolProp name="perThread">true</boolProp>
+            <stringProp name="TestPlan.comments">Generate random Name value to create document/folder in storage</stringProp>
+          </RandomVariableConfig>
+          <hashTree/>
+          <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Random value rndContentStream" enabled="true">
+            <stringProp name="variableName">rndContentStream</stringProp>
+            <stringProp name="outputFormat"></stringProp>
+            <stringProp name="minimumValue">0</stringProp>
+            <stringProp name="maximumValue">-1</stringProp>
+            <stringProp name="randomSeed">${__RandomString(131072,ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890+/- ,rndContentStream)}</stringProp>
+            <boolProp name="perThread">true</boolProp>
+            <stringProp name="TestPlan.comments">Generate random Content Stream value to create documents in storage</stringProp>
+          </RandomVariableConfig>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="Preconditions: Set up Content" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1496414965000</longProp>
+        <longProp name="ThreadGroup.end_time">1496414965000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Generate Random values Module Controller " enabled="true">
+          <collectionProp name="ModuleController.node_path">
+            <stringProp name="-1227702913">WorkBench</stringProp>
+            <stringProp name="-1950697682">JMeter Test Flow Scenario (CMIS operations)</stringProp>
+            <stringProp name="-1721842764">Generate Random values</stringProp>
+            <stringProp name="-1721842764">Generate Random values</stringProp>
+          </collectionProp>
+        </ModuleController>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Register New User" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+&quot;email&quot;: &quot;${USER_NAME}&quot;,    &#xd;
+&quot;firstName&quot;: &quot;William&quot;,&#xd;
+&quot;lastName&quot;: &quot;Mackenzie&quot;,&#xd;
+&quot;password&quot;: &quot;${USER_PASSWORD}&quot;&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/content/rest/user-account</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="Content-Type" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login User" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="username" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">username</stringProp>
+                <stringProp name="Argument.value">${USER_NAME}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="password" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.name">password</stringProp>
+                <stringProp name="Argument.value">${USER_PASSWORD}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/content/rest/authorize/login</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="Content-Type" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/x-www-form-urlencoded</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Parsing of &quot;Set-Cookie&quot; from HTTP response" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">true</stringProp>
+            <stringProp name="RegexExtractor.refname">setCookie</stringProp>
+            <stringProp name="RegexExtractor.regex">Set-Cookie: (.+?);</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default">null</stringProp>
+            <stringProp name="RegexExtractor.match_number"></stringProp>
+          </RegexExtractor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Add FileNet connector" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">[{&quot;projections&quot;:{&quot;/FILENET/${FILENET_PROJ}&quot;:&quot;/&quot;},&quot;name&quot;:&quot;/FILENET/${FILENET_PROJ}&quot;,&quot;username&quot;:&quot;${FILENET_USERNAME}&quot;,&quot;password&quot;:&quot;${FILENET_PASSWORD}&quot;,&quot;url&quot;:&quot;${FILENET_URL}&quot;,&quot;repositoryId&quot;:&quot;${FILENET_PROJ}&quot;,&quot;userConnectorType&quot;:&quot;FILE_NET&quot;}]</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path">/content/rest/user-connector/finish-create/</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="Content-Type" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json;charset=UTF-8</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Cookie</stringProp>
+                <stringProp name="Header.value">${setCookie}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Delay" enabled="true">
+          <intProp name="ActionProcessor.action">1</intProp>
+          <intProp name="ActionProcessor.target">0</intProp>
+          <stringProp name="ActionProcessor.duration">2000</stringProp>
+        </TestAction>
+        <hashTree/>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Local Store" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">{&#xd;
+&quot;name&quot;:&quot;${NAME_LOCAL_STORE}&quot;,&#xd;
+&quot;internalPath&quot;:&quot;${PATH_LOCAL_STORE}&quot;&#xd;
+}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/content/rest/user-connector/create-local-store</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="JSESSIONID" elementType="Header">
+                <stringProp name="Header.name">Cookie</stringProp>
+                <stringProp name="Header.value">${setCookie}</stringProp>
+              </elementProp>
+              <elementProp name="Content-Type" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Install document types in Local Store" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">//------------------------------------------------------------------------------&#xd;
+// N A M E S P A C E S&#xd;
+//------------------------------------------------------------------------------&#xd;
+&lt;jcr=&apos;http://www.jcp.org/jcr/1.0&apos;&gt;&#xd;
+&lt;nt=&apos;http://www.jcp.org/jcr/nt/1.0&apos;&gt;&#xd;
+&lt;notifications=&apos;http://engagepoint.com/document/notifications&apos;&gt;&#xd;
+&lt;mix=&apos;http://www.jcp.org/jcr/mix/1.0&apos;&gt;&#xd;
+//------------------------------------------------------------------------------&#xd;
+// N O D E T Y P E S&#xd;
+//------------------------------------------------------------------------------&#xd;
+&#xd;
+[notifications:hixDocument] &gt; nt:file abstract&#xd;
+- notifications:hixDocumentId (string)&#xd;
+&#xd;
+[notifications:appeals] &gt; nt:file, mix:versionable&#xd;
+- notifications:documentDate (date)&#xd;
+- notifications:appealsDocumentType (string) &lt; &quot;MNsure Appeals Decision Unredacted&quot;, &quot;MNsure Appeals Request Form&quot;&#xd;
+- notifications:appealsProgram (string) &lt; &quot;Advance Premium Tax Credits (APTC)&quot;, &quot;Medical Assistance (MA)/Children&apos;s Health Insurance Program (CHIP)&quot;, &quot;MinnesotaCare&quot;&#xd;
+- notifications:repFirstName (string)&#xd;
+- notifications:repLastName (string)&#xd;
+- notifications:dateOfBirth (date)&#xd;
+- notifications:filingDate (date)&#xd;
+- notifications:decisionDate (date)&#xd;
+- notifications:appellantFirstName (string)&#xd;
+- notifications:appellantLastName (string)&#xd;
+- notifications:appellantMiddleName (string)&#xd;
+- notifications:mnsureID (string)&#xd;
+- notifications:userName (string)&#xd;
+- notifications:docketNumber (string)&#xd;
+- notifications:examinerFirstName (string)&#xd;
+- notifications:examinerLastName (string)&#xd;
+- notifications:tags (string) multiple&#xd;
+- notifications:fileName (string)&#xd;
+- notifications:templateId (string)&#xd;
+&#xd;
+[notifications:templateGroup] &gt; nt:folder&#xd;
+- notifications:tags (string) multiple&#xd;
+- notifications:description (string)&#xd;
+- notifications:locked (boolean)&#xd;
+&#xd;
+[notifications:customNotification] &gt; notifications:hixDocument abstract&#xd;
+- notifications:dateOfBirth (date)&#xd;
+&#xd;
+[notifications:baseNotification] &gt; notifications:customNotification abstract&#xd;
+- notifications:tags (string) multiple&#xd;
+- notifications:templateId (string)&#xd;
+&#xd;
+[notifications:emailNotification] &gt; notifications:baseNotification&#xd;
+- notifications:subject (string)&#xd;
+- notifications:from (string)&#xd;
+- notifications:to (string) multiple&#xd;
+- notifications:cc (string) multiple&#xd;
+- notifications:bcc (string) multiple&#xd;
+- notifications:attachments (string) multiple&#xd;
+&#xd;
+[notifications:printMailNotification] &gt; notifications:baseNotification&#xd;
+- notifications:name (string)&#xd;
+- notifications:company (string)&#xd;
+- notifications:streetAddress (string)&#xd;
+- notifications:city (string)&#xd;
+- notifications:state (string)&#xd;
+- notifications:zipCode (string)&#xd;
+- notifications:crossReferenceNumber (string)&#xd;
+&#xd;
+[notifications:hixEmailNotification] &gt; notifications:emailNotification&#xd;
+- notifications:contractId (string)&#xd;
+- notifications:choiceOption (string) &lt; &quot;optionOne&quot;, &quot;optionTwo&quot;, &quot;aaa\u0028aaa&quot;&#xd;
+- notifications:requiredField (string) mandatory&#xd;
+&#xd;
+[notifications:smsNotification] &gt; notifications:baseNotification&#xd;
+- notifications:from (string)&#xd;
+- notifications:to (string) multiple&#xd;
+- notifications:deliveryReceiptDate (date)&#xd;
+- notifications:deliveryReceiptStatus (string)&#xd;
+&#xd;
+[notifications:notificationAttachment] &gt; notifications:baseNotification&#xd;
+- notifications:fileName (string)&#xd;
+&#xd;
+[notifications:baseTemplate] &gt; notifications:hixDocument abstract&#xd;
+- notifications:locale (string)&#xd;
+- notifications:outputMimeType (string)&#xd;
+- notifications:renderingEngine (string)&#xd;
+- notifications:targetDocumentTypeId (string)&#xd;
+- notifications:placeholderKeys (string) multiple&#xd;
+- notifications:placeholderValues (string) multiple&#xd;
+- notifications:templateVersion (string) = &quot;1.0&quot;&#xd;
+- notifications:startDate (date)&#xd;
+- notifications:endDate (date)&#xd;
+- notifications:status (string)&#xd;
+&#xd;
+[notifications:emailTemplate] &gt; notifications:baseTemplate&#xd;
+- notifications:subject (string)&#xd;
+- notifications:staticAttachments (string) multiple&#xd;
+- notifications:dynamicAttachments (string) multiple&#xd;
+&#xd;
+[notifications:printMailTemplate] &gt; notifications:baseTemplate&#xd;
+- notifications:staticAttachments (string) multiple&#xd;
+- notifications:dynamicAttachments (string) multiple&#xd;
+- notifications:readOnly (boolean)&#xd;
+&#xd;
+[notifications:smsTemplate] &gt; notifications:baseTemplate&#xd;
+&#xd;
+[notifications:attachmentTemplate] &gt; notifications:baseTemplate&#xd;
+- notifications:targetFileName (string)&#xd;
+- notifications:readOnly (boolean)&#xd;
+&#xd;
+[notifications:appealsNotification1] &gt; notifications:appeals&#xd;
+- notifications:tags (string) multiple&#xd;
+- notifications:templateId (string)&#xd;
+- notifications:fileName (string)&#xd;
+&#xd;
+[notifications:appealsNotification4] &gt; notifications:appeals</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/content/rest/user-connector/install-local-store-types</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="Content-Type" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">text/plain</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Cookie</stringProp>
+                <stringProp name="Header.value">${setCookie}</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Root Folder Id By Path in Local Store" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-C19C697791B6376B97149641571825124&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;kogS6U+SnxAgxTSdD7TlWw==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-06-02T15:01:58.251Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:getObjectByPath&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:path&gt;${PATH_LOCAL_STORE}&lt;/ns:path&gt;&#xd;
+      &lt;/ns:getObjectByPath&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">MIME-Version</stringProp>
+                <stringProp name="Header.value">1.0</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Convert Request to the correct XML format" enabled="true">
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="script">String response  = prev.getResponseDataAsString();
+int begin = response.indexOf(&quot;&lt;soap:Envelope&quot;);
+int end = response.lastIndexOf(&quot;--uuid:&quot;);
+String xml = response.substring(begin, end);
+prev.setResponseData(xml, &quot;UTF-8&quot;);</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+          <XPathExtractor guiclass="XPathExtractorGui" testclass="XPathExtractor" testname="Parsing of &quot;Root Folder Id Local Store&quot; from XML" enabled="true">
+            <stringProp name="XPathExtractor.default">null</stringProp>
+            <stringProp name="XPathExtractor.refname">rootFolderIdLocalStore</stringProp>
+            <stringProp name="XPathExtractor.xpathQuery">//*[@queryName=&apos;cmis:objectId&apos;]/*[local-name()=&apos;value&apos;]/text()</stringProp>
+            <boolProp name="XPathExtractor.validate">false</boolProp>
+            <boolProp name="XPathExtractor.tolerant">false</boolProp>
+            <boolProp name="XPathExtractor.namespace">false</boolProp>
+            <stringProp name="Scope.variable"></stringProp>
+            <stringProp name="XPathExtractor.matchNumber">1</stringProp>
+            <boolProp name="XPathExtractor.quiet">false</boolProp>
+          </XPathExtractor>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Save Root Folder Id Local Store to Variables" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">${__setProperty(ROOT_FOLDER_ID_LOCAL_STORE,${rootFolderIdLocalStore})};</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Root Folder Id By Path in FileNet" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-C19C697791B6376B97149641571825124&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;kogS6U+SnxAgxTSdD7TlWw==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-06-02T15:01:58.251Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:getObjectByPath&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:path&gt;/FILENET/${FILENET_PROJ}&lt;/ns:path&gt;&#xd;
+      &lt;/ns:getObjectByPath&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">MIME-Version</stringProp>
+                <stringProp name="Header.value">1.0</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Convert Request to the correct XML format" enabled="true">
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="script">String response  = prev.getResponseDataAsString();
+int begin = response.indexOf(&quot;&lt;soap:Envelope&quot;);
+int end = response.lastIndexOf(&quot;--uuid:&quot;);
+String xml = response.substring(begin, end);
+prev.setResponseData(xml, &quot;UTF-8&quot;);</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+          <XPathExtractor guiclass="XPathExtractorGui" testclass="XPathExtractor" testname="Parsing of &quot;Root Folder Id FileNet&quot; from XML" enabled="true">
+            <stringProp name="XPathExtractor.default">null</stringProp>
+            <stringProp name="XPathExtractor.refname">rootFolderIdFileNet</stringProp>
+            <stringProp name="XPathExtractor.xpathQuery">//*[@queryName=&apos;cmis:objectId&apos;]/*[local-name()=&apos;value&apos;]/text()</stringProp>
+            <boolProp name="XPathExtractor.validate">false</boolProp>
+            <boolProp name="XPathExtractor.tolerant">false</boolProp>
+            <boolProp name="XPathExtractor.namespace">false</boolProp>
+            <stringProp name="Scope.variable"></stringProp>
+            <stringProp name="XPathExtractor.matchNumber">1</stringProp>
+            <boolProp name="XPathExtractor.quiet">false</boolProp>
+          </XPathExtractor>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Save Root Folder Id FileNet to Variables" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">${__setProperty(ROOT_FOLDER_ID_FILENET,${rootFolderIdFileNet})};</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Base Folder in root (Local Store)" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:ns1=&quot;http://docs.oasis-open.org/ns/cmis/core/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-C19C697791B6376B97149633252918617&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;KiHXNLm/Cw0AhOOeHgQaVg==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-06-01T15:55:29.186Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:createFolder&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:properties&gt;&#xd;
+            &lt;ns1:propertyId displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:objectTypeId&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;cmis:folder&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyId&gt;            &#xd;
+            &lt;ns1:propertyString displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:name&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;folder_${rndFileName}&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyString&gt;&#xd;
+         &lt;/ns:properties&gt;&#xd;
+         &lt;ns:folderId&gt;${__property(ROOT_FOLDER_ID_LOCAL_STORE)}&lt;/ns:folderId&gt;&#xd;
+         &lt;ns:extension&gt;&#xd;
+         &lt;/ns:extension&gt;&#xd;
+      &lt;/ns:createFolder&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">MIME-Version</stringProp>
+                <stringProp name="Header.value">1.0</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Convert Request to the correct XML format" enabled="true">
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="script">String response  = prev.getResponseDataAsString();
+int begin = response.indexOf(&quot;&lt;soap:Envelope&quot;);
+int end = response.lastIndexOf(&quot;--uuid:&quot;);
+String xml = response.substring(begin, end);
+prev.setResponseData(xml, &quot;UTF-8&quot;);</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+          <XPathExtractor guiclass="XPathExtractorGui" testclass="XPathExtractor" testname="Parsing of &quot;Base Folder Id&quot; from XML" enabled="true">
+            <stringProp name="XPathExtractor.default">null</stringProp>
+            <stringProp name="XPathExtractor.refname">baseFolderIdLocalStore</stringProp>
+            <stringProp name="XPathExtractor.xpathQuery">//*[name()=&apos;objectId&apos;]/text()</stringProp>
+            <boolProp name="XPathExtractor.validate">false</boolProp>
+            <boolProp name="XPathExtractor.tolerant">false</boolProp>
+            <boolProp name="XPathExtractor.namespace">false</boolProp>
+            <stringProp name="Scope.variable"></stringProp>
+            <stringProp name="XPathExtractor.matchNumber">1</stringProp>
+            <boolProp name="XPathExtractor.quiet">false</boolProp>
+          </XPathExtractor>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Save Base Folder Id to Variables" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">${__setProperty(BASE_FOLDER_ID_LOCALSTORE,${baseFolderIdLocalStore})};</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Base Folder in root (FileNet)" enabled="true">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:ns1=&quot;http://docs.oasis-open.org/ns/cmis/core/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-C19C697791B6376B97149633252918617&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;KiHXNLm/Cw0AhOOeHgQaVg==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-06-01T15:55:29.186Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:createFolder&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:properties&gt;&#xd;
+            &lt;ns1:propertyId displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:objectTypeId&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;cmis:folder&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyId&gt;            &#xd;
+            &lt;ns1:propertyString displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:name&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;folder_${rndFileName}&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyString&gt;&#xd;
+         &lt;/ns:properties&gt;&#xd;
+         &lt;ns:folderId&gt;${__property(ROOT_FOLDER_ID_FILENET)}&lt;/ns:folderId&gt;&#xd;
+         &lt;ns:extension&gt;&#xd;
+         &lt;/ns:extension&gt;&#xd;
+      &lt;/ns:createFolder&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">MIME-Version</stringProp>
+                <stringProp name="Header.value">1.0</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Convert Request to the correct XML format" enabled="true">
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="script">String response  = prev.getResponseDataAsString();
+int begin = response.indexOf(&quot;&lt;soap:Envelope&quot;);
+int end = response.lastIndexOf(&quot;--uuid:&quot;);
+String xml = response.substring(begin, end);
+prev.setResponseData(xml, &quot;UTF-8&quot;);</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+          <XPathExtractor guiclass="XPathExtractorGui" testclass="XPathExtractor" testname="Parsing of &quot;Base Folder Id&quot; from XML" enabled="true">
+            <stringProp name="XPathExtractor.default">null</stringProp>
+            <stringProp name="XPathExtractor.refname">baseFolderIdFileNet</stringProp>
+            <stringProp name="XPathExtractor.xpathQuery">//*[name()=&apos;objectId&apos;]/text()</stringProp>
+            <boolProp name="XPathExtractor.validate">false</boolProp>
+            <boolProp name="XPathExtractor.tolerant">false</boolProp>
+            <boolProp name="XPathExtractor.namespace">false</boolProp>
+            <stringProp name="Scope.variable"></stringProp>
+            <stringProp name="XPathExtractor.matchNumber">1</stringProp>
+            <boolProp name="XPathExtractor.quiet">false</boolProp>
+          </XPathExtractor>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="Save Base Folder Id to Variables" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">${__setProperty(BASE_FOLDER_ID_FILENET,${baseFolderIdFileNet})};</stringProp>
+          </BeanShellPostProcessor>
+          <hashTree/>
+        </hashTree>
+        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="true">
+          <boolProp name="displayJMeterProperties">true</boolProp>
+          <boolProp name="displayJMeterVariables">true</boolProp>
+          <boolProp name="displaySystemProperties">false</boolProp>
+        </DebugSampler>
+        <hashTree/>
+        <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+          <stringProp name="ConstantTimer.delay">300</stringProp>
+        </ConstantTimer>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create_Folder_In_Filenet_Particular_Amount" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${THREADS_NUMBER}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1400496822000</longProp>
+        <longProp name="ThreadGroup.end_time">1400496822000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="TestPlan.comments">Create N - number of folder in FileNet</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
+          <stringProp name="IfController.condition">&quot;${testCreateFolderFilenetAmount_on}&quot; == &quot;true&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">true</boolProp>
+        </IfController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="testCreateFolderFilenetAmount" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="TestPlan.comments">Create N - number of folder in FileNet</stringProp>
+            <stringProp name="LoopController.loops">${LOOP_COUNT}</stringProp>
+          </LoopController>
+          <hashTree>
+            <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Generate Random values Module Controller " enabled="true">
+              <collectionProp name="ModuleController.node_path">
+                <stringProp name="-1227702913">WorkBench</stringProp>
+                <stringProp name="-1950697682">JMeter Test Flow Scenario (CMIS operations)</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+              </collectionProp>
+            </ModuleController>
+            <hashTree/>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${LOOP_COUNT}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">counter</stringProp>
+              <stringProp name="CounterConfig.format">000</stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+              <boolProp name="CounterConfig.reset_on_tg_iteration">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="testCreateFolderFilenetAmount" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:ns1=&quot;http://docs.oasis-open.org/ns/cmis/core/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-C19C697791B6376B97149633252918617&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;KiHXNLm/Cw0AhOOeHgQaVg==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-06-01T15:55:29.186Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:createFolder&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:properties&gt;&#xd;
+            &lt;ns1:propertyId displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:objectTypeId&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;cmis:folder&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyId&gt;            &#xd;
+            &lt;ns1:propertyString displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:name&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;folder_${rndFileName}_${counter}&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyString&gt;&#xd;
+         &lt;/ns:properties&gt;&#xd;
+         &lt;ns:folderId&gt;${__property(BASE_FOLDER_ID_FILENET)}&lt;/ns:folderId&gt;&#xd;
+         &lt;ns:extension&gt;&#xd;
+         &lt;/ns:extension&gt;&#xd;
+      &lt;/ns:createFolder&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">MIME-Version</stringProp>
+                    <stringProp name="Header.value">1.0</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+            <boolProp name="displayJMeterProperties">true</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create_Folder_In_Local_Store_Particular_Amount" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${THREADS_NUMBER}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1497020491000</longProp>
+        <longProp name="ThreadGroup.end_time">1497020491000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="TestPlan.comments">Create N - number of folder in Local Store</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
+          <stringProp name="IfController.condition">&quot;${testCreateFolderLocalStoreAmount_on}&quot; == &quot;true&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">true</boolProp>
+        </IfController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="testCreateFolderLocalStoreAmount" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="TestPlan.comments">Create N - number of folder in Local Store</stringProp>
+            <stringProp name="LoopController.loops">${LOOP_COUNT}</stringProp>
+          </LoopController>
+          <hashTree>
+            <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Generate Random values Module Controller " enabled="true">
+              <collectionProp name="ModuleController.node_path">
+                <stringProp name="-1227702913">WorkBench</stringProp>
+                <stringProp name="-1950697682">JMeter Test Flow Scenario (CMIS operations)</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+              </collectionProp>
+            </ModuleController>
+            <hashTree/>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${LOOP_COUNT}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">counter</stringProp>
+              <stringProp name="CounterConfig.format">000</stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+              <boolProp name="CounterConfig.reset_on_tg_iteration">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="testCreateFolderLocalStoreAmount" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:ns1=&quot;http://docs.oasis-open.org/ns/cmis/core/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-C19C697791B6376B97149633252918617&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;KiHXNLm/Cw0AhOOeHgQaVg==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-06-01T15:55:29.186Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:createFolder&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:properties&gt;&#xd;
+            &lt;ns1:propertyId displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:objectTypeId&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;cmis:folder&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyId&gt;            &#xd;
+            &lt;ns1:propertyString displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:name&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;folder_${rndFileName}_${counter}&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyString&gt;&#xd;
+         &lt;/ns:properties&gt;&#xd;
+         &lt;ns:folderId&gt;${__property(BASE_FOLDER_ID_LOCALSTORE)}&lt;/ns:folderId&gt;&#xd;
+         &lt;ns:extension&gt;&#xd;
+         &lt;/ns:extension&gt;&#xd;
+      &lt;/ns:createFolder&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">MIME-Version</stringProp>
+                    <stringProp name="Header.value">1.0</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+            <boolProp name="displayJMeterProperties">true</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create_Filed_Document_In_Filenet_Particular_Amount" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${THREADS_NUMBER}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1497020648000</longProp>
+        <longProp name="ThreadGroup.end_time">1497020648000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="TestPlan.comments">Create N - number of filed document in FileNet</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
+          <stringProp name="IfController.condition">&quot;${testCreateFiledDocumentFilenetAmount_on}&quot; == &quot;true&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">true</boolProp>
+        </IfController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="testCreateFiledDocumentFilenetAmount" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="TestPlan.comments">Create N - number of filed document in FileNet</stringProp>
+            <stringProp name="LoopController.loops">${LOOP_COUNT}</stringProp>
+          </LoopController>
+          <hashTree>
+            <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Generate Random values Module Controller " enabled="true">
+              <collectionProp name="ModuleController.node_path">
+                <stringProp name="-1227702913">WorkBench</stringProp>
+                <stringProp name="-1950697682">JMeter Test Flow Scenario (CMIS operations)</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+              </collectionProp>
+            </ModuleController>
+            <hashTree/>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${LOOP_COUNT}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">counter</stringProp>
+              <stringProp name="CounterConfig.format">000</stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+              <boolProp name="CounterConfig.reset_on_tg_iteration">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="testCreateFiledDocumentFilenetAmount" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:ns1=&quot;http://docs.oasis-open.org/ns/cmis/core/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-3691548D9F8D7D94D61496150804298106&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;ZPtEYcUK9EVFt+0NoP7p8g==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-05-30T13:26:44.298Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:createDocument&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:properties&gt;&#xd;
+            &lt;ns1:propertyId displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:objectTypeId&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;cmis:document&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyId&gt;           &#xd;
+            &lt;ns1:propertyString displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:name&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;file_${rndFileName}_${counter}.doc&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyString&gt;&#xd;
+         &lt;/ns:properties&gt;&#xd;
+         &lt;ns:folderId&gt;${__property(BASE_FOLDER_ID_FILENET)}&lt;/ns:folderId&gt;&#xd;
+         &lt;ns:contentStream&gt;&#xd;
+            &lt;ns:length&gt;1000&lt;/ns:length&gt;&#xd;
+            &lt;ns:mimeType&gt;application/octeat-stream&lt;/ns:mimeType&gt;&#xd;
+            &lt;ns:filename&gt;file_${rndFileName}_${counter}.doc&lt;/ns:filename&gt;&#xd;
+            &lt;ns:stream&gt;${rndContentStream}${counter}&lt;/ns:stream&gt;&#xd;
+         &lt;/ns:contentStream&gt;&#xd;
+         &lt;ns:versioningState&gt;NONE&lt;/ns:versioningState&gt;&#xd;
+         &lt;ns:extension&gt;&#xd;
+         &lt;/ns:extension&gt;&#xd;
+      &lt;/ns:createDocument&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">MIME-Version</stringProp>
+                    <stringProp name="Header.value">1.0</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+            <boolProp name="displayJMeterProperties">true</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create_Filed_Document_In_Local_Store_Particular_Amount" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${THREADS_NUMBER}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1497020988000</longProp>
+        <longProp name="ThreadGroup.end_time">1497020988000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="TestPlan.comments">Create N - number of filed document in Local Store</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
+          <stringProp name="IfController.condition">&quot;${testCreateFiledDocumentLocalStoreAmount_on}&quot; == &quot;true&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">true</boolProp>
+        </IfController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="testCreateFiledDocumentLocalStoreAmount" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="TestPlan.comments">Create N - number of filed document in Local Store</stringProp>
+            <stringProp name="LoopController.loops">${LOOP_COUNT}</stringProp>
+          </LoopController>
+          <hashTree>
+            <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Generate Random values Module Controller " enabled="true">
+              <collectionProp name="ModuleController.node_path">
+                <stringProp name="-1227702913">WorkBench</stringProp>
+                <stringProp name="-1950697682">JMeter Test Flow Scenario (CMIS operations)</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+              </collectionProp>
+            </ModuleController>
+            <hashTree/>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${LOOP_COUNT}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">counter</stringProp>
+              <stringProp name="CounterConfig.format">000</stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+              <boolProp name="CounterConfig.reset_on_tg_iteration">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="testCreateFiledDocumentLocalStoreAmount" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:ns1=&quot;http://docs.oasis-open.org/ns/cmis/core/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-3691548D9F8D7D94D61496150804298106&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;ZPtEYcUK9EVFt+0NoP7p8g==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-05-30T13:26:44.298Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:createDocument&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:properties&gt;&#xd;
+            &lt;ns1:propertyId displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:objectTypeId&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;cmis:document&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyId&gt;           &#xd;
+            &lt;ns1:propertyString displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:name&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;file_${rndFileName}_${counter}.doc&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyString&gt;&#xd;
+         &lt;/ns:properties&gt;&#xd;
+         &lt;ns:folderId&gt;${__property(BASE_FOLDER_ID_LOCALSTORE)}&lt;/ns:folderId&gt;&#xd;
+         &lt;ns:contentStream&gt;&#xd;
+            &lt;ns:length&gt;1000&lt;/ns:length&gt;&#xd;
+            &lt;ns:mimeType&gt;application/octeat-stream&lt;/ns:mimeType&gt;&#xd;
+            &lt;ns:filename&gt;file_${rndFileName}_${counter}.doc&lt;/ns:filename&gt;&#xd;
+            &lt;ns:stream&gt;${rndContentStream}${counter}&lt;/ns:stream&gt;&#xd;
+         &lt;/ns:contentStream&gt;&#xd;
+         &lt;ns:versioningState&gt;NONE&lt;/ns:versioningState&gt;&#xd;
+         &lt;ns:extension&gt;&#xd;
+         &lt;/ns:extension&gt;&#xd;
+      &lt;/ns:createDocument&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">MIME-Version</stringProp>
+                    <stringProp name="Header.value">1.0</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+            <boolProp name="displayJMeterProperties">true</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create_Unfiled_Document_Filenet_Particular_Amount" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${THREADS_NUMBER}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1497021016000</longProp>
+        <longProp name="ThreadGroup.end_time">1497021016000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="TestPlan.comments">Create N - number of unfiled document</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
+          <stringProp name="IfController.condition">&quot;${testCreateUnfiledDocumentFilenetAmount_on}&quot; == &quot;true&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">true</boolProp>
+        </IfController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="testCreateUnfiledDocumentFilenetAmount" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="TestPlan.comments">Create N - number of unfiled document</stringProp>
+            <stringProp name="LoopController.loops">${LOOP_COUNT}</stringProp>
+          </LoopController>
+          <hashTree>
+            <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Generate Random values Module Controller " enabled="true">
+              <collectionProp name="ModuleController.node_path">
+                <stringProp name="-1227702913">WorkBench</stringProp>
+                <stringProp name="-1950697682">JMeter Test Flow Scenario (CMIS operations)</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+              </collectionProp>
+            </ModuleController>
+            <hashTree/>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${LOOP_COUNT}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">counter</stringProp>
+              <stringProp name="CounterConfig.format">000</stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+              <boolProp name="CounterConfig.reset_on_tg_iteration">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="testCreateUnfiledDocumentFilenetAmount" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:ns1=&quot;http://docs.oasis-open.org/ns/cmis/core/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-3691548D9F8D7D94D61496150804298106&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;ZPtEYcUK9EVFt+0NoP7p8g==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-05-30T13:26:44.298Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:createDocument&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:properties&gt;&#xd;
+            &lt;ns1:propertyId displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:objectTypeId&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;cmis:document&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyId&gt;           &#xd;
+            &lt;ns1:propertyString displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:name&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;unfiled_file_${rndFileName}_${counter}.doc&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyString&gt;&#xd;
+         &lt;/ns:properties&gt;&#xd;
+         &lt;ns:contentStream&gt;&#xd;
+            &lt;ns:length&gt;1000&lt;/ns:length&gt;&#xd;
+            &lt;ns:mimeType&gt;application/octeat-stream&lt;/ns:mimeType&gt;&#xd;
+            &lt;ns:filename&gt;file_${rndFileName}_${counter}.doc&lt;/ns:filename&gt;&#xd;
+            &lt;ns:stream&gt;${rndContentStream}&lt;/ns:stream&gt;&#xd;
+         &lt;/ns:contentStream&gt;&#xd;
+         &lt;ns:versioningState&gt;NONE&lt;/ns:versioningState&gt;&#xd;
+         &lt;ns:extension&gt;&#xd;
+         &lt;/ns:extension&gt;&#xd;
+      &lt;/ns:createDocument&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="TestPlan.comments">&quot;CodeModule&quot; is configured as unfiled type document in Filenet</stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">MIME-Version</stringProp>
+                    <stringProp name="Header.value">1.0</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+            <boolProp name="displayJMeterProperties">true</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create_Unfiled_Document_In_Local_Store_Particular_Amount" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${THREADS_NUMBER}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1497021016000</longProp>
+        <longProp name="ThreadGroup.end_time">1497021016000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="TestPlan.comments">Create N - number of unfiled document</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
+          <stringProp name="IfController.condition">&quot;${testCreateUnfiledDocumentLocalStoreAmount_on}&quot; == &quot;true&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">true</boolProp>
+        </IfController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="testCreateUnfiledDocumentLocalStoreAmount" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="TestPlan.comments">Create N - number of unfiled document</stringProp>
+            <stringProp name="LoopController.loops">${LOOP_COUNT}</stringProp>
+          </LoopController>
+          <hashTree>
+            <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Generate Random values Module Controller " enabled="true">
+              <collectionProp name="ModuleController.node_path">
+                <stringProp name="-1227702913">WorkBench</stringProp>
+                <stringProp name="-1950697682">JMeter Test Flow Scenario (CMIS operations)</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+              </collectionProp>
+            </ModuleController>
+            <hashTree/>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${LOOP_COUNT}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">counter</stringProp>
+              <stringProp name="CounterConfig.format">000</stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+              <boolProp name="CounterConfig.reset_on_tg_iteration">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="testCreateUnfiledDocumentLocalStoreAmount" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:ns1=&quot;http://docs.oasis-open.org/ns/cmis/core/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-3691548D9F8D7D94D61496150804298106&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;ZPtEYcUK9EVFt+0NoP7p8g==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-05-30T13:26:44.298Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:createDocument&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:properties&gt;&#xd;
+            &lt;ns1:propertyId displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:objectTypeId&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;cmis:document&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyId&gt;           &#xd;
+            &lt;ns1:propertyString displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:name&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;unfiled_file_${rndFileName}_${counter}.doc&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyString&gt;&#xd;
+         &lt;/ns:properties&gt;&#xd;
+         &lt;ns:contentStream&gt;&#xd;
+            &lt;ns:length&gt;1000&lt;/ns:length&gt;&#xd;
+            &lt;ns:mimeType&gt;application/octeat-stream&lt;/ns:mimeType&gt;&#xd;
+            &lt;ns:filename&gt;file_${rndFileName}_${counter}.doc&lt;/ns:filename&gt;&#xd;
+            &lt;ns:stream&gt;${rndContentStream}&lt;/ns:stream&gt;&#xd;
+         &lt;/ns:contentStream&gt;&#xd;
+         &lt;ns:versioningState&gt;NONE&lt;/ns:versioningState&gt;&#xd;
+         &lt;ns:extension&gt;&#xd;
+         &lt;/ns:extension&gt;&#xd;
+      &lt;/ns:createDocument&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="TestPlan.comments">&quot;cmis:document&quot; will be created as unfiled type document in Local Store</stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">MIME-Version</stringProp>
+                    <stringProp name="Header.value">1.0</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+            <boolProp name="displayJMeterProperties">true</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create_Folder_In_Filenet_Time" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${THREADS_NUMBER}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1400496822000</longProp>
+        <longProp name="ThreadGroup.end_time">1400496822000</longProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="TestPlan.comments">Create folders in FileNet during time frame</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
+          <stringProp name="IfController.condition">&quot;${testCreateFolderFilenetTime_on}&quot; == &quot;true&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">true</boolProp>
+        </IfController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="testCreateFolderFilenetTime" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="TestPlan.comments">Create folders in FileNet during time frame</stringProp>
+            <intProp name="LoopController.loops">-1</intProp>
+          </LoopController>
+          <hashTree>
+            <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Generate Random values Module Controller " enabled="true">
+              <collectionProp name="ModuleController.node_path">
+                <stringProp name="-1227702913">WorkBench</stringProp>
+                <stringProp name="-1950697682">JMeter Test Flow Scenario (CMIS operations)</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+              </collectionProp>
+            </ModuleController>
+            <hashTree/>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${LOOP_COUNT}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">counter</stringProp>
+              <stringProp name="CounterConfig.format">000</stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+              <boolProp name="CounterConfig.reset_on_tg_iteration">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="testCreateFolderFilenetTime" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:ns1=&quot;http://docs.oasis-open.org/ns/cmis/core/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-C19C697791B6376B97149633252918617&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;KiHXNLm/Cw0AhOOeHgQaVg==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-06-01T15:55:29.186Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:createFolder&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:properties&gt;&#xd;
+            &lt;ns1:propertyId displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:objectTypeId&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;cmis:folder&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyId&gt;            &#xd;
+            &lt;ns1:propertyString displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:name&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;folder_${rndFileName}_${counter}&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyString&gt;&#xd;
+         &lt;/ns:properties&gt;&#xd;
+         &lt;ns:folderId&gt;${__property(BASE_FOLDER_ID_FILENET)}&lt;/ns:folderId&gt;&#xd;
+         &lt;ns:extension&gt;&#xd;
+         &lt;/ns:extension&gt;&#xd;
+      &lt;/ns:createFolder&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">MIME-Version</stringProp>
+                    <stringProp name="Header.value">1.0</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+            <boolProp name="displayJMeterProperties">true</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create_Folder_In_Local_Store_Time" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${THREADS_NUMBER}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1497020491000</longProp>
+        <longProp name="ThreadGroup.end_time">1497020491000</longProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="TestPlan.comments">Create folders in Local Store during time frame</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
+          <stringProp name="IfController.condition">&quot;${testCreateFolderLocalStoreTime_on}&quot; == &quot;true&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">true</boolProp>
+        </IfController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="testCreateFolderLocalStoreTime" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="TestPlan.comments">Create folders in Local Store during time frame</stringProp>
+            <intProp name="LoopController.loops">-1</intProp>
+          </LoopController>
+          <hashTree>
+            <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Generate Random values Module Controller " enabled="true">
+              <collectionProp name="ModuleController.node_path">
+                <stringProp name="-1227702913">WorkBench</stringProp>
+                <stringProp name="-1950697682">JMeter Test Flow Scenario (CMIS operations)</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+              </collectionProp>
+            </ModuleController>
+            <hashTree/>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${LOOP_COUNT}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">counter</stringProp>
+              <stringProp name="CounterConfig.format">000</stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+              <boolProp name="CounterConfig.reset_on_tg_iteration">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="testCreateFolderLocalStoreTime" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:ns1=&quot;http://docs.oasis-open.org/ns/cmis/core/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-C19C697791B6376B97149633252918617&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;KiHXNLm/Cw0AhOOeHgQaVg==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-06-01T15:55:29.186Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:createFolder&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:properties&gt;&#xd;
+            &lt;ns1:propertyId displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:objectTypeId&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;cmis:folder&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyId&gt;            &#xd;
+            &lt;ns1:propertyString displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:name&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;folder_${rndFileName}_${__time}&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyString&gt;&#xd;
+         &lt;/ns:properties&gt;&#xd;
+         &lt;ns:folderId&gt;${__property(BASE_FOLDER_ID_LOCALSTORE)}&lt;/ns:folderId&gt;&#xd;
+         &lt;ns:extension&gt;&#xd;
+         &lt;/ns:extension&gt;&#xd;
+      &lt;/ns:createFolder&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">MIME-Version</stringProp>
+                    <stringProp name="Header.value">1.0</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+            <boolProp name="displayJMeterProperties">true</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create_Filed_Document_In_Filenet_Time" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${THREADS_NUMBER}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1497020648000</longProp>
+        <longProp name="ThreadGroup.end_time">1497020648000</longProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="TestPlan.comments">Create filed documents in FileNet during time frame</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
+          <stringProp name="IfController.condition">&quot;${testCreateFiledDocumentFilenetTime_on}&quot; == &quot;true&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">true</boolProp>
+        </IfController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="testCreateFiledDocumentFilenetTime" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="TestPlan.comments">Create filed documents in FileNet during time frame</stringProp>
+            <intProp name="LoopController.loops">-1</intProp>
+          </LoopController>
+          <hashTree>
+            <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Generate Random values Module Controller " enabled="true">
+              <collectionProp name="ModuleController.node_path">
+                <stringProp name="-1227702913">WorkBench</stringProp>
+                <stringProp name="-1950697682">JMeter Test Flow Scenario (CMIS operations)</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+              </collectionProp>
+            </ModuleController>
+            <hashTree/>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${LOOP_COUNT}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">counter</stringProp>
+              <stringProp name="CounterConfig.format">000</stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+              <boolProp name="CounterConfig.reset_on_tg_iteration">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="testCreateFiledDocumentFilenetTime" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:ns1=&quot;http://docs.oasis-open.org/ns/cmis/core/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-3691548D9F8D7D94D61496150804298106&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;ZPtEYcUK9EVFt+0NoP7p8g==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-05-30T13:26:44.298Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:createDocument&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:properties&gt;&#xd;
+            &lt;ns1:propertyId displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:objectTypeId&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;cmis:document&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyId&gt;           &#xd;
+            &lt;ns1:propertyString displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:name&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;file_${rndFileName}_${counter}.doc&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyString&gt;&#xd;
+         &lt;/ns:properties&gt;&#xd;
+         &lt;ns:folderId&gt;${__property(BASE_FOLDER_ID_FILENET)}&lt;/ns:folderId&gt;&#xd;
+         &lt;ns:contentStream&gt;&#xd;
+            &lt;ns:length&gt;1000&lt;/ns:length&gt;&#xd;
+            &lt;ns:mimeType&gt;application/octeat-stream&lt;/ns:mimeType&gt;&#xd;
+            &lt;ns:filename&gt;file_${rndFileName}_${counter}.doc&lt;/ns:filename&gt;&#xd;
+            &lt;ns:stream&gt;${rndContentStream}${counter}&lt;/ns:stream&gt;&#xd;
+         &lt;/ns:contentStream&gt;&#xd;
+         &lt;ns:versioningState&gt;NONE&lt;/ns:versioningState&gt;&#xd;
+         &lt;ns:extension&gt;&#xd;
+         &lt;/ns:extension&gt;&#xd;
+      &lt;/ns:createDocument&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">MIME-Version</stringProp>
+                    <stringProp name="Header.value">1.0</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+            <boolProp name="displayJMeterProperties">true</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create_Filed_Document_In_Local_Store_Time" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${THREADS_NUMBER}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1497020988000</longProp>
+        <longProp name="ThreadGroup.end_time">1497020988000</longProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="TestPlan.comments">Create filed documents in Local Store during time frame</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
+          <stringProp name="IfController.condition">&quot;${testCreateFiledDocumentLocalStoreTime_on}&quot; == &quot;true&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">true</boolProp>
+        </IfController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="testCreateFiledDocumentLocalStoreTime" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="TestPlan.comments">Create filed documents in Local Store during time frame</stringProp>
+            <intProp name="LoopController.loops">-1</intProp>
+          </LoopController>
+          <hashTree>
+            <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Generate Random values Module Controller " enabled="true">
+              <collectionProp name="ModuleController.node_path">
+                <stringProp name="-1227702913">WorkBench</stringProp>
+                <stringProp name="-1950697682">JMeter Test Flow Scenario (CMIS operations)</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+              </collectionProp>
+            </ModuleController>
+            <hashTree/>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${LOOP_COUNT}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">counter</stringProp>
+              <stringProp name="CounterConfig.format">000</stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+              <boolProp name="CounterConfig.reset_on_tg_iteration">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="testCreateFiledDocumentLocalStoreTime" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:ns1=&quot;http://docs.oasis-open.org/ns/cmis/core/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-3691548D9F8D7D94D61496150804298106&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;ZPtEYcUK9EVFt+0NoP7p8g==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-05-30T13:26:44.298Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:createDocument&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:properties&gt;&#xd;
+            &lt;ns1:propertyId displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:objectTypeId&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;cmis:document&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyId&gt;           &#xd;
+            &lt;ns1:propertyString displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:name&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;file_${rndFileName}_${counter}.doc&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyString&gt;&#xd;
+         &lt;/ns:properties&gt;&#xd;
+         &lt;ns:folderId&gt;${__property(BASE_FOLDER_ID_LOCALSTORE)}&lt;/ns:folderId&gt;&#xd;
+         &lt;ns:contentStream&gt;&#xd;
+            &lt;ns:length&gt;1000&lt;/ns:length&gt;&#xd;
+            &lt;ns:mimeType&gt;application/octeat-stream&lt;/ns:mimeType&gt;&#xd;
+            &lt;ns:filename&gt;file_${rndFileName}_${counter}.doc&lt;/ns:filename&gt;&#xd;
+            &lt;ns:stream&gt;${rndContentStream}${counter}&lt;/ns:stream&gt;&#xd;
+         &lt;/ns:contentStream&gt;&#xd;
+         &lt;ns:versioningState&gt;NONE&lt;/ns:versioningState&gt;&#xd;
+         &lt;ns:extension&gt;&#xd;
+         &lt;/ns:extension&gt;&#xd;
+      &lt;/ns:createDocument&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">MIME-Version</stringProp>
+                    <stringProp name="Header.value">1.0</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+            <boolProp name="displayJMeterProperties">true</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create_Unfiled_Document_In_Filenet_Time" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${THREADS_NUMBER}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1497021016000</longProp>
+        <longProp name="ThreadGroup.end_time">1497021016000</longProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="TestPlan.comments">Create unfiled documents during time frame</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
+          <stringProp name="IfController.condition">&quot;${testCreateUnfiledDocumentFilenetTime_on}&quot; == &quot;true&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">true</boolProp>
+        </IfController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="testCreateUnfiledDocumentFilenetTime" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="TestPlan.comments">Create unfiled documents during time frame</stringProp>
+            <intProp name="LoopController.loops">-1</intProp>
+          </LoopController>
+          <hashTree>
+            <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Generate Random values Module Controller " enabled="true">
+              <collectionProp name="ModuleController.node_path">
+                <stringProp name="-1227702913">WorkBench</stringProp>
+                <stringProp name="-1950697682">JMeter Test Flow Scenario (CMIS operations)</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+              </collectionProp>
+            </ModuleController>
+            <hashTree/>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${LOOP_COUNT}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">counter</stringProp>
+              <stringProp name="CounterConfig.format">000</stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+              <boolProp name="CounterConfig.reset_on_tg_iteration">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="testCreateUnfiledDocumentFilenetTime" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:ns1=&quot;http://docs.oasis-open.org/ns/cmis/core/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-3691548D9F8D7D94D61496150804298106&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;ZPtEYcUK9EVFt+0NoP7p8g==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-05-30T13:26:44.298Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:createDocument&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:properties&gt;&#xd;
+            &lt;ns1:propertyId displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:objectTypeId&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;cmis:document&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyId&gt;           &#xd;
+            &lt;ns1:propertyString displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:name&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;unfiled_file_${rndFileName}_${counter}.doc&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyString&gt;&#xd;
+         &lt;/ns:properties&gt;&#xd;
+         &lt;ns:contentStream&gt;&#xd;
+            &lt;ns:length&gt;1000&lt;/ns:length&gt;&#xd;
+            &lt;ns:mimeType&gt;application/octeat-stream&lt;/ns:mimeType&gt;&#xd;
+            &lt;ns:filename&gt;file_${rndFileName}_${counter}.doc&lt;/ns:filename&gt;&#xd;
+            &lt;ns:stream&gt;${rndContentStream}${counter}&lt;/ns:stream&gt;&#xd;
+         &lt;/ns:contentStream&gt;&#xd;
+         &lt;ns:versioningState&gt;NONE&lt;/ns:versioningState&gt;&#xd;
+         &lt;ns:extension&gt;&#xd;
+         &lt;/ns:extension&gt;&#xd;
+      &lt;/ns:createDocument&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="TestPlan.comments">&quot;CodeModule&quot; is configured as unfiled type document in Filenet</stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">MIME-Version</stringProp>
+                    <stringProp name="Header.value">1.0</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+            <boolProp name="displayJMeterProperties">true</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Create_Unfiled_Document_In_Local_Store_Time" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${THREADS_NUMBER}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1497021016000</longProp>
+        <longProp name="ThreadGroup.end_time">1497021016000</longProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">${DURATION}</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+        <stringProp name="TestPlan.comments">Create unfiled documents during time frame</stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
+          <stringProp name="IfController.condition">&quot;${testCreateUnfiledDocumentLocalStoreTime_on}&quot; == &quot;true&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">true</boolProp>
+        </IfController>
+        <hashTree>
+          <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="testCreateUnfiledDocumentLocalStoreTime" enabled="true">
+            <boolProp name="LoopController.continue_forever">true</boolProp>
+            <stringProp name="TestPlan.comments">Create unfiled documents during time frame</stringProp>
+            <intProp name="LoopController.loops">-1</intProp>
+          </LoopController>
+          <hashTree>
+            <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Generate Random values Module Controller " enabled="true">
+              <collectionProp name="ModuleController.node_path">
+                <stringProp name="-1227702913">WorkBench</stringProp>
+                <stringProp name="-1950697682">JMeter Test Flow Scenario (CMIS operations)</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+                <stringProp name="-1721842764">Generate Random values</stringProp>
+              </collectionProp>
+            </ModuleController>
+            <hashTree/>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end">${LOOP_COUNT}</stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">counter</stringProp>
+              <stringProp name="CounterConfig.format">000</stringProp>
+              <boolProp name="CounterConfig.per_user">true</boolProp>
+              <boolProp name="CounterConfig.reset_on_tg_iteration">true</boolProp>
+            </CounterConfig>
+            <hashTree/>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="testCreateUnfiledDocumentLocalStoreTime" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">--${rndBoundary}&#xd;
+Content-Type: application/xop+xml; charset=UTF-8; type=&quot;text/xml&quot;&#xd;
+Content-Transfer-Encoding: 8bit&#xd;
+Content-ID: &lt;rootpart@soapui.org&gt;&#xd;
+&#xd;
+&lt;soapenv:Envelope xmlns:ns=&quot;http://docs.oasis-open.org/ns/cmis/messaging/200908/&quot; xmlns:ns1=&quot;http://docs.oasis-open.org/ns/cmis/core/200908/&quot; xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;&#xd;
+   &lt;soapenv:Header&gt;&lt;wsse:Security xmlns:wsse=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot; xmlns:wsu=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;&gt;&lt;wsse:UsernameToken wsu:Id=&quot;UsernameToken-3691548D9F8D7D94D61496150804298106&quot;&gt;&lt;wsse:Username&gt;${USER_NAME}&lt;/wsse:Username&gt;&lt;wsse:Password Type=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText&quot;&gt;${USER_PASSWORD}&lt;/wsse:Password&gt;&lt;wsse:Nonce EncodingType=&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary&quot;&gt;ZPtEYcUK9EVFt+0NoP7p8g==&lt;/wsse:Nonce&gt;&lt;wsu:Created&gt;2017-05-30T13:26:44.298Z&lt;/wsu:Created&gt;&lt;/wsse:UsernameToken&gt;&lt;/wsse:Security&gt;&lt;/soapenv:Header&gt;&#xd;
+   &lt;soapenv:Body&gt;&#xd;
+      &lt;ns:createDocument&gt;&#xd;
+         &lt;ns:repositoryId&gt;${CONTENT_REPO}&lt;/ns:repositoryId&gt;&#xd;
+         &lt;ns:properties&gt;&#xd;
+            &lt;ns1:propertyId displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:objectTypeId&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;cmis:document&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyId&gt;           &#xd;
+            &lt;ns1:propertyString displayName=&quot;?&quot; localName=&quot;?&quot; propertyDefinitionId=&quot;cmis:name&quot; queryName=&quot;?&quot;&gt;&#xd;
+               &lt;ns1:value&gt;unfiled_file_${rndFileName}_${counter}.doc&lt;/ns1:value&gt;&#xd;
+            &lt;/ns1:propertyString&gt;&#xd;
+         &lt;/ns:properties&gt;&#xd;
+         &lt;ns:contentStream&gt;&#xd;
+            &lt;ns:length&gt;1000&lt;/ns:length&gt;&#xd;
+            &lt;ns:mimeType&gt;application/octeat-stream&lt;/ns:mimeType&gt;&#xd;
+            &lt;ns:filename&gt;file_${rndFileName}_${counter}.doc&lt;/ns:filename&gt;&#xd;
+            &lt;ns:stream&gt;${rndContentStream}${counter}&lt;/ns:stream&gt;&#xd;
+         &lt;/ns:contentStream&gt;&#xd;
+         &lt;ns:versioningState&gt;NONE&lt;/ns:versioningState&gt;&#xd;
+         &lt;ns:extension&gt;&#xd;
+         &lt;/ns:extension&gt;&#xd;
+      &lt;/ns:createDocument&gt;&#xd;
+   &lt;/soapenv:Body&gt;&#xd;
+&lt;/soapenv:Envelope&gt;&#xd;
+--${rndBoundary}--</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${HOST}</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">${CMIS_URL}</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="TestPlan.comments">&quot;cmis:document&quot; will be created as unfiled type document in Local Store</stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">multipart/related; type=&quot;application/xop+xml&quot;; start=&quot;&lt;rootpart@soapui.org&gt;&quot;; start-info=&quot;text/xml&quot;; boundary=&quot;${rndBoundary}&quot;</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Header">
+                    <stringProp name="Header.name">MIME-Version</stringProp>
+                    <stringProp name="Header.value">1.0</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+            <boolProp name="displayJMeterProperties">true</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+      <GaussianRandomTimer guiclass="GaussianRandomTimerGui" testclass="GaussianRandomTimer" testname="Gaussian Random Timer" enabled="true">
+        <stringProp name="ConstantTimer.delay">300</stringProp>
+        <stringProp name="RandomTimer.range">100.0</stringProp>
+      </GaussianRandomTimer>
+      <hashTree/>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>false</time>
+            <latency>false</latency>
+            <timestamp>false</timestamp>
+            <success>false</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>false</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>true</responseData>
+            <samplerData>true</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>true</responseHeaders>
+            <requestHeaders>true</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <url>true</url>
+            <fileName>true</fileName>
+            <threadCounts>true</threadCounts>
+            <sampleCount>true</sampleCount>
+          </value>
+        </objProp>
+        <objProp>
+          <name></name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>false</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+          </value>
+        </objProp>
+        <stringProp name="filename">jMeterTestReport.csv</stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <objProp>
+          <name></name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>false</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <objProp>
+          <name></name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>false</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <objProp>
+          <name></name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>false</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="GraphVisualizer" testclass="ResultCollector" testname="Graph Results" enabled="false">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <objProp>
+          <name></name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>false</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+          </value>
+        </objProp>
+        <stringProp name="filename">jMeterGraphResults.csv</stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+    <WorkBench guiclass="WorkBenchGui" testclass="WorkBench" testname="WorkBench" enabled="true">
+      <boolProp name="WorkBench.save">true</boolProp>
+    </WorkBench>
+    <hashTree>
+      <ProxyControl guiclass="ProxyControlGui" testclass="ProxyControl" testname="HTTP(S) Traffic Recorder" enabled="false">
+        <stringProp name="ProxyControlGui.port">8089</stringProp>
+        <collectionProp name="ProxyControlGui.exclude_list"/>
+        <collectionProp name="ProxyControlGui.include_list"/>
+        <boolProp name="ProxyControlGui.capture_http_headers">true</boolProp>
+        <intProp name="ProxyControlGui.grouping_mode">0</intProp>
+        <boolProp name="ProxyControlGui.add_assertion">false</boolProp>
+        <stringProp name="ProxyControlGui.sampler_type_name"></stringProp>
+        <boolProp name="ProxyControlGui.sampler_redirect_automatically">false</boolProp>
+        <boolProp name="ProxyControlGui.sampler_follow_redirects">true</boolProp>
+        <boolProp name="ProxyControlGui.use_keepalive">true</boolProp>
+        <boolProp name="ProxyControlGui.sampler_download_images">false</boolProp>
+        <stringProp name="ProxyControlGui.proxy_prefix_http_sampler_name"></stringProp>
+        <boolProp name="ProxyControlGui.notify_child_sl_filtered">true</boolProp>
+        <boolProp name="ProxyControlGui.regex_match">false</boolProp>
+        <stringProp name="ProxyControlGui.content_type_include"></stringProp>
+        <stringProp name="ProxyControlGui.content_type_exclude"></stringProp>
+      </ProxyControl>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
